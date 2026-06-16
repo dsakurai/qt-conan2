@@ -13,6 +13,7 @@ Quick install (using local conan executable):
 mkdir build
 cd build
 $env:CONAN_HOME = "C:\NoWhitespace\conan-cache" # Need some dir without whitespaces due to a bug in dependencies.
+#
 #                                                                          PowerShell support
 .\.venv\Scripts\conan.exe install .. --build=missing -s build_type=Release -c tools.env.virtualenv:powershell=pwsh
 ```
