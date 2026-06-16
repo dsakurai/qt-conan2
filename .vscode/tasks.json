@@ -1,0 +1,95 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Create build folder",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "mkdir",
+        "build"
+      ],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": []
+    },
+    {
+      "label": "Conan: install",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "& '../.venv/Scripts/conan.exe' install .. --build=missing -s build_type=Release -c tools.env.virtualenv:powershell=pwsh"
+      ],
+      "options": {"cwd": "${workspaceFolder}/build"},
+      "presentation": { "reveal": "always" },
+      "dependsOn": "Create build folder",
+      "problemMatcher": []
+    },
+    // {
+    //   "label": "Run: conanrun.ps1",
+    //   "type": "shell",
+    //   "command": "powershell",
+    //   "args": [
+    //     "-NoProfile",
+    //     "-ExecutionPolicy",
+    //     "Bypass",
+    //     "-Command",
+    //     "& 'build/generators/conanrun.ps1'"
+    //   ],
+    //   "presentation": { "reveal": "always" },
+    //   "problemMatcher": []
+    // },
+    {
+      "label": "Prepare run",
+      "type": "shell",
+      "command": "echo",
+      "args": ["Preparing environment and building..."],
+      "dependsOn": ["Export: conan env to .env", "CMake: build conan-release"],
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Export: conan env to .env",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/.vscode/export_conan_env.ps1",
+        "${workspaceFolder}/build/generators/conan.env"
+      ],
+      "dependsOn": "Conan: install",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "CMake: configure conan-default",
+      "type": "shell",
+      "command": "cmake",
+      "args": ["--preset", "conan-default"],
+      "group": "build",
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": [],
+      "dependsOn": "Conan: install",
+    },
+    {
+      "label": "CMake: build conan-release",
+      "type": "shell",
+      "command": "cmake",
+      "args": ["--build", "--preset", "conan-release"],
+      "dependsOn": "CMake: configure conan-default",
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": []
+    }
+  ]
+}
