@@ -47,33 +47,20 @@
         "-ExecutionPolicy",
         "Bypass",
         "-Command",
-        "& '../.venv/Scripts/conan.exe' install .. --build=missing -s build_type=Release -c tools.env.virtualenv:powershell=pwsh"
+        "& '../.venv/Scripts/conan.exe' install .. --build=missing -s build_type=Release"
       ],
-      "options": {"cwd": "${workspaceFolder}/build"},
+      "options": {
+        "cwd": "${workspaceFolder}/build",
+        "env": {
+          "Path": "${workspaceFolder}\\.venv\\Scripts;${env:Path}"
+        }
+      },
       "presentation": {
         "reveal": "silent",
         "echo": true,
         "panel": "shared"
       },
       "dependsOn": ["uv: sync"],
-      "problemMatcher": []
-    },
-    {
-      "label": "Run: conanrun.ps1",
-      "type": "shell",
-      "command": "powershell",
-      "args": [
-        "-NoProfile",
-        "-ExecutionPolicy",
-        "Bypass",
-        "-Command",
-        "& 'build/generators/conanrun.ps1'"
-      ],
-      "presentation": {
-        "reveal": "silent",
-        "echo": true,
-        "panel": "shared"
-      },
       "problemMatcher": []
     },
     {
