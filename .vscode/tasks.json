@@ -10,10 +10,32 @@
         "-ExecutionPolicy",
         "Bypass",
         "-Command",
-        "mkdir",
-        "build"
+        "md",
+        "-Force",
+        "build",
       ],
       "options": {"cwd": "${workspaceFolder}"},
+      "presentation": {
+        "reveal": "silent",
+        "echo": true,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "uv: sync",
+      "type": "shell",
+      "command": "uv",
+      "args": [
+        "sync",
+      ],
+      "options": {"cwd": "${workspaceFolder}"},
+      "presentation": {
+        "reveal": "silent",
+        "echo": true,
+        "panel": "shared"
+      },
+      "dependsOn": "Create build folder",
       "problemMatcher": []
     },
     {
@@ -28,31 +50,30 @@
         "& '../.venv/Scripts/conan.exe' install .. --build=missing -s build_type=Release -c tools.env.virtualenv:powershell=pwsh"
       ],
       "options": {"cwd": "${workspaceFolder}/build"},
-      "presentation": { "reveal": "always" },
-      "dependsOn": "Create build folder",
+      "presentation": {
+        "reveal": "silent",
+        "echo": true,
+        "panel": "shared"
+      },
+      "dependsOn": ["uv: sync"],
       "problemMatcher": []
     },
-    // {
-    //   "label": "Run: conanrun.ps1",
-    //   "type": "shell",
-    //   "command": "powershell",
-    //   "args": [
-    //     "-NoProfile",
-    //     "-ExecutionPolicy",
-    //     "Bypass",
-    //     "-Command",
-    //     "& 'build/generators/conanrun.ps1'"
-    //   ],
-    //   "presentation": { "reveal": "always" },
-    //   "problemMatcher": []
-    // },
     {
-      "label": "Prepare run",
+      "label": "Run: conanrun.ps1",
       "type": "shell",
-      "command": "echo",
-      "args": ["Preparing environment and building..."],
-      "dependsOn": ["Export: conan env to .env", "CMake: build conan-release"],
-      "presentation": { "reveal": "silent" },
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "& 'build/generators/conanrun.ps1'"
+      ],
+      "presentation": {
+        "reveal": "silent",
+        "echo": true,
+        "panel": "shared"
+      },
       "problemMatcher": []
     },
     {
@@ -68,28 +89,53 @@
         "${workspaceFolder}/build/generators/conan.env"
       ],
       "dependsOn": "Conan: install",
-      "presentation": { "reveal": "always" },
+      "presentation": {
+        "reveal": "silent",
+        "echo": true,
+        "panel": "shared"
+      },
       "problemMatcher": []
     },
     {
       "label": "CMake: configure conan-default",
       "type": "shell",
-      "command": "cmake",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\cmake",
       "args": ["--preset", "conan-default"],
       "group": "build",
-      "presentation": { "reveal": "silent" },
+      "presentation": {
+        "reveal": "silent",
+        "echo": true,
+        "panel": "shared"
+      },
       "problemMatcher": [],
-      "dependsOn": "Conan: install",
+      "dependsOn": "Export: conan env to .env",
     },
     {
       "label": "CMake: build conan-release",
       "type": "shell",
-      "command": "cmake",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\cmake",
       "args": ["--build", "--preset", "conan-release"],
       "dependsOn": "CMake: configure conan-default",
       "group": { "kind": "build", "isDefault": true },
-      "presentation": { "reveal": "silent" },
+      "presentation": {
+        "reveal": "silent",
+        "echo": true,
+        "panel": "shared"
+      },
       "problemMatcher": []
-    }
+    },
+    {
+      "label": "Prepare run",
+      "type": "shell",
+      "command": "echo",
+      "args": ["Preparing environment and building..."],
+      "dependsOn": ["CMake: build conan-release"],
+      "presentation": {
+        "reveal": "silent",
+        "echo": true,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
   ]
 }
