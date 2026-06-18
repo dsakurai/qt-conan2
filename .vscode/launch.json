@@ -2,15 +2,15 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "C++ - Launch Example (Release)",
+      "name": "C++ - Launch Example (Debug)",
       "type": "cppvsdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/Release/example.exe",
+      "program": "${workspaceFolder}/build/Debug/example.exe",
       "envFile": "${workspaceFolder}/build/generators/conan.env",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
-      "preLaunchTask": "Prepare run",
+      "preLaunchTask": "CMake: build conan (debug)",
     },
   ]
 }

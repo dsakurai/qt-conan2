@@ -47,7 +47,7 @@
         "-ExecutionPolicy",
         "Bypass",
         "-Command",
-        "& '../.venv/Scripts/conan.exe' install .. --build=missing -s build_type=Release"
+        "& '../.venv/Scripts/conan.exe' install .. --build=missing -s build_type=Debug -c tools.env.virtualenv:powershell=powershell.exe "
       ],
       "options": {
         "cwd": "${workspaceFolder}/build",
@@ -98,25 +98,12 @@
       "dependsOn": "Export: conan env to .env",
     },
     {
-      "label": "CMake: build conan-release",
+      "label": "CMake: build conan (debug)",
       "type": "shell",
       "command": "${workspaceFolder}\\.venv\\Scripts\\cmake",
-      "args": ["--build", "--preset", "conan-release"],
+      "args": ["--build", "--preset", "conan-debug"],
       "dependsOn": "CMake: configure conan-default",
       "group": { "kind": "build", "isDefault": true },
-      "presentation": {
-        "reveal": "silent",
-        "echo": true,
-        "panel": "shared"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Prepare run",
-      "type": "shell",
-      "command": "echo",
-      "args": ["Preparing environment and building..."],
-      "dependsOn": ["CMake: build conan-release"],
       "presentation": {
         "reveal": "silent",
         "echo": true,

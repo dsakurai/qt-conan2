@@ -19,8 +19,7 @@ class QtConan(ConanFile):
         "qt/*:qtdeclarative": True, # used for QtWebEngine
         "qt/*:qtwebchannel": True, # used for QtWebEngine
         "qt/*:with_pq": False,
-        "&:tools.env.virtualenv:powershell": True, # Generate a PowerShell script that activates the virtual environment
-        # "libiconv/*:tools.env.virtualenv:powershell": False,
+        "libiconv/*:tools.env.virtualenv:powershell": False, # Work around for a bug in libiconv's PowerShell virtualenv activation script that causes the build to fail
     }
 
     def layout(self):
