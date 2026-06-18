@@ -30,8 +30,7 @@ class QtConan(ConanFile):
         deps.generate()
 
         tc = CMakeToolchain(self)
-        # Ensure C++ standard is at least 17
-        tc.variables["CMAKE_CXX_STANDARD"] = 17
+        tc.variables["CMAKE_CXX_STANDARD"] = 23
         tc.generate()
 
     def build(self):
