@@ -2,5 +2,6 @@
   "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
   "cmake.configurePreset": "conan-default",
   "cmake.buildPreset": "conan-release",
-  "tasks.runTask": "Run: conanrun.ps1"
+  "tasks.runTask": "Run: conanrun.ps1",
+  "cmake.cmakePath": "${workspaceFolder}\\.venv\\Scripts\\cmake.exe"
 }
