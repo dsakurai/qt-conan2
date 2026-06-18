@@ -6,16 +6,20 @@ This project includes a `conanfile.py` that requests Qt6 with `widgets` and opti
 
 Make sure you have enabled long paths in Windows Settings.
 
-Quick install (using local conan executable):
+Set the `CONAN_HOME` env var to some folder without a whitespace (because libiconv fails to build otherwise).
+
+### Auto build on VSCode 
+
+Press F5
+
+### Manual build (using local conan executable):
 
 ```powershell
 .\venv\Scripts\activate # Assuming you did `uv sync`
 mkdir build
 cd build
-$env:CONAN_HOME = "C:\NoWhitespace\conan-cache" # Need some dir without whitespaces due to a bug in dependencies.
 #
-#                                                                          PowerShell support
-.\.venv\Scripts\conan.exe install .. --build=missing -s build_type=Release -c tools.env.virtualenv:powershell=pwsh
+.\.venv\Scripts\conan.exe install .. --build=missing -s build_type=Release
 ```
 
 Or, for a global config of the env var:
