@@ -30,8 +30,9 @@ class QtConan(ConanFile):
         deps.generate()
 
         tc = CMakeToolchain(self)
-        tc.variables["CMAKE_CXX_STANDARD"] = 23
         tc.generate()
+
+        # VirtualRunEnv(self).generate() # Not needed if we pass the option to generate the "dotenv" file from the command line.
 
     def build(self):
         cmake = CMake(self)

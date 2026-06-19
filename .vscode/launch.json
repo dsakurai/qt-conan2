@@ -6,7 +6,7 @@
       "type": "cppvsdbg",
       "request": "launch",
       "program": "${workspaceFolder}/build/Debug/example.exe",
-      "envFile": "${workspaceFolder}/build/generators/conan.env",
+      "envFile": "${workspaceFolder}/build/generators/conanrunenv-Debug-x86_64.env",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",

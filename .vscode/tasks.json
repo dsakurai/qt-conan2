@@ -47,7 +47,9 @@
         "-ExecutionPolicy",
         "Bypass",
         "-Command",
-        "& '../.venv/Scripts/conan.exe' install .. --build=missing -s build_type=Debug -c tools.env.virtualenv:powershell=powershell.exe "
+        // `-s   build_type=Release` sets the overall build type for the dependencies.
+        // `-s &:build_type=Release` sets the build type for this project's source code.
+        "& '../.venv/Scripts/conan.exe' install .. --build=missing -s build_type=Release -s `&:build_type=Debug -c tools.env.virtualenv:powershell=powershell.exe -c tools.env:dotenv=true"
       ],
       "options": {
         "cwd": "${workspaceFolder}/build",
@@ -64,30 +66,12 @@
       "problemMatcher": []
     },
     {
-      "label": "Export: conan env to .env",
-      "type": "shell",
-      "command": "powershell",
-      "args": [
-        "-NoProfile",
-        "-ExecutionPolicy",
-        "Bypass",
-        "-File",
-        "${workspaceFolder}/.vscode/export_conan_env.ps1",
-        "${workspaceFolder}/build/generators/conan.env"
-      ],
-      "dependsOn": "Conan: install",
-      "presentation": {
-        "reveal": "silent",
-        "echo": true,
-        "panel": "shared"
-      },
-      "problemMatcher": []
-    },
-    {
       "label": "CMake: configure conan-default",
       "type": "shell",
       "command": "${workspaceFolder}\\.venv\\Scripts\\cmake",
-      "args": ["--preset", "conan-default"],
+      "args": ["--preset", "conan-default",
+               "-DCMAKE_CONFIGURATION_TYPES=Debug" // Explicitly set here because Conan forgets to set this cache variable for MSVC.
+            ],
       "group": "build",
       "presentation": {
         "reveal": "silent",
@@ -95,7 +79,7 @@
         "panel": "shared"
       },
       "problemMatcher": [],
-      "dependsOn": "Export: conan env to .env",
+      "dependsOn": "Conan: install",
     },
     {
       "label": "CMake: build conan (debug)",
