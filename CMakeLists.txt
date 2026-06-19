@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.21)
 project(qt_conan2_example LANGUAGES CXX)
 
-set(CMAKE_AUTOMOC ON)
+# Place built binaries (executables, libraries, archives) in the top-level
+# binary directory so they don't end up in generator-specific subfolders.
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
-
-add_executable(example main.cpp TreeWidget.cpp)
-target_compile_features(example PUBLIC cxx_std_23)
-target_link_libraries(example PRIVATE Qt6::Widgets)
+add_subdirectory(source)
