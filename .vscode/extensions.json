@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ms-vscode.cpptools",
+    "ms-vscode.cpp-devtools",
+    "ms-vscode.cmake-tools",
+    "ms-python.python", // For installing and running the conan package manager
+  ],
+  "unwantedRecommendations": [
+    "ms-vscode.cpptools-extension-pack",
+  ]
+}
